@@ -8,6 +8,7 @@ import org.koin.core.logger.Level
 import org.koin.core.module.Module
 import tour.donnees.github.data.di.DataModule
 import tour.donnees.github.data.di.NetworkModule
+import tour.donnees.github.domain.di.DomainModule
 
 class MyApplication: Application() {
 
@@ -24,7 +25,8 @@ class MyApplication: Application() {
     private fun getModules(): List<Module> {
         return listOf(
             NetworkModule,
-            DataModule
+            DataModule,
+            DomainModule
         )
     }
 }
