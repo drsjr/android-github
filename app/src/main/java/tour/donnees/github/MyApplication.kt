@@ -9,6 +9,7 @@ import org.koin.core.module.Module
 import tour.donnees.github.data.di.DataModule
 import tour.donnees.github.data.di.NetworkModule
 import tour.donnees.github.domain.di.DomainModule
+import tour.donnees.github.presentation.di.PresentationModule
 
 class MyApplication: Application() {
 
@@ -26,7 +27,8 @@ class MyApplication: Application() {
         return listOf(
             NetworkModule,
             DataModule,
-            DomainModule
+            DomainModule,
+            PresentationModule
         )
     }
 }
