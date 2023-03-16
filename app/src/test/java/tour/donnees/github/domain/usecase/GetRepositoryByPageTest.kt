@@ -16,7 +16,6 @@ class GetRepositoryByPageTest {
 
     private val useCase = GetRepositoryByPageImpl(searchedRepository)
 
-
     @Test
     fun test() {
         val value = mockSearchedRepository()
@@ -31,7 +30,7 @@ class GetRepositoryByPageTest {
         Assert.assertEquals(value.items?.get(0)!!.stargazersCount, test[0].stars)
         Assert.assertEquals(value.items?.get(0)!!.owner!!.url, test[0].profileUrl)
         Assert.assertEquals(value.items?.get(0)!!.owner!!.avatarUrl, test[0].profileImageUrl)
-        Assert.assertEquals(value.items?.get(0)!!.fullName, test[0].profileName)
+        Assert.assertEquals(value.items?.get(0)!!.owner!!.login, test[0].profileName)
         Assert.assertEquals(value.items?.size, test.size)
 
     }
@@ -44,12 +43,12 @@ class GetRepositoryByPageTest {
                     name = "test",
                     owner = OwnerDTO(
                         avatarUrl = "http://test.com/avatar",
-                        url = "http://test.com"
+                        url = "http://test.com",
+                        login = "test test"
                     ),
                     url = "http://test.com/repo",
                     stargazersCount = 10,
-                    forks = 10,
-                    fullName = "test test"
+                    forks = 10
                 )
             ),
             totalCount = 1
