@@ -9,9 +9,10 @@ class RepositoryMapping {
         return RepositoryModel(
             repositoryName = item.name.orEmpty(),
             repositoryUrl = item.url.orEmpty(),
+            repositoryDescription = item.description.orEmpty(),
             stars = item.stargazersCount ?: 0,
             forks = item.forks ?: 0,
-            profileName = item.fullName.orEmpty(),
+            profileName = item.owner?.login.orEmpty(),
             profileImageUrl = item.owner?.avatarUrl.orEmpty(),
             profileUrl = item.owner?.url.orEmpty()
         )

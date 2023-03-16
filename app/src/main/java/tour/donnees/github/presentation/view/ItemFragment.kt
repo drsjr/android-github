@@ -1,10 +1,12 @@
 package tour.donnees.github.presentation.view
 
+import android.content.res.Configuration
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -18,7 +20,7 @@ class ItemFragment : Fragment() {
     private lateinit var binding: FragmentItemListBinding
     private val adapterItem by lazy { ItemViewAdapter(viewModel) }
 
-    private var columnCount = 1
+    private var columnCount = 2
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -28,23 +30,38 @@ class ItemFragment : Fragment() {
 
 
         // Set the adapter
-        if (binding.list is RecyclerView) {
-            endlessScrolling(binding.list)
+        when (resources.configuration.orientation) {
+            Configuration.ORIENTATION_LANDSCAPE -> {
                 with(binding.list) {
-                layoutManager = when {
-                    columnCount <= 1 -> LinearLayoutManager(context)
-                    else -> GridLayoutManager(context, columnCount)
+                    layoutManager = GridLayoutManager(context, columnCount)
+                    adapter = adapterItem
                 }
-                adapter = adapterItem
             }
+            else -> {
+                with(binding.list) {
+                    layoutManager = LinearLayoutManager(context)
+                    adapter = adapterItem
+                }
+            }
+
         }
+        binding.list.apply {
+            endlessScrolling(this)
+            addDivider(this)
+        }
+
+
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        if (savedInstanceState == null) {
+            viewModel.getRepositories()
+        } else {
+            adapterItem.updateAdapter()
+        }
         initObserver()
-        viewModel.getRepositories()
     }
 
     private fun initObserver() {
@@ -74,6 +91,10 @@ class ItemFragment : Fragment() {
                 }
             }
         })
+    }
+
+    private fun addDivider(recyclerView: RecyclerView) {
+        recyclerView.addItemDecoration(DividerItemDecoration(recyclerView.context, DividerItemDecoration.VERTICAL))
     }
 }
 
