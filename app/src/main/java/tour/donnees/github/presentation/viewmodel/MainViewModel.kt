@@ -4,6 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import tour.donnees.github.domain.model.RepositoryModel
 import tour.donnees.github.domain.usecase.GetRepositoryByPage
@@ -22,12 +24,14 @@ class MainViewModel(
     private val _isLoading = MutableLiveData(false)
     val isLoading = _isLoading.asLiveData()
 
-    private val _navigateToViewState = MutableLiveData<ViewState>()
-    val navigateToViewState = _navigateToViewState.asLiveData()
+    private val coroutineExceptionHandler = CoroutineExceptionHandler { _, throwable ->
+        if (isLoading()) _isLoading.stopLoading()
+        throwable.printStackTrace()
+    }
 
     fun getRepositories() {
         _isLoading.startLoading()
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO + coroutineExceptionHandler) {
             val info = getRepositoryByPage.getRepositoryByPage(page)
             repositoriesList.addAll(info.items)
             hasMore = repositoriesList.size < info.total
@@ -41,13 +45,6 @@ class MainViewModel(
     fun isLoading() = isLoading.value ?: false
     fun hasMorePages(): Boolean = hasMore
 
-}
-
-sealed class ViewState {
-    object ViewLoading: ViewState()
-    object ViewEmpty: ViewState()
-    object ViewList: ViewState()
-    object ViewInfo: ViewState()
 }
 
 fun MutableLiveData<Boolean>.startLoading() {
