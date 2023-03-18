@@ -12,7 +12,7 @@ import tour.donnees.github.domain.model.RepositoryModel
 import tour.donnees.github.presentation.viewmodel.MainViewModel
 import java.text.DecimalFormat
 
-class ItemViewAdapter(private val viewModel: MainViewModel) : RecyclerView.Adapter<ItemViewAdapter.ViewHolder>() {
+class ItemViewAdapter : RecyclerView.Adapter<ItemViewAdapter.ViewHolder>() {
 
     private val values = mutableListOf<RepositoryModel>()
 
@@ -39,9 +39,9 @@ class ItemViewAdapter(private val viewModel: MainViewModel) : RecyclerView.Adapt
 
     override fun getItemCount(): Int = values.size
 
-    fun updateAdapter() {
+    fun updateAdapter(list: List<RepositoryModel>) {
         values.clear()
-        values.addAll(viewModel.getRepositoryList())
+        values.addAll(list)
         notifyDataSetChanged()
     }
 

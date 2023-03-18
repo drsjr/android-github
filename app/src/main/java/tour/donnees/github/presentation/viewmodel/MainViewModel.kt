@@ -12,6 +12,7 @@ class MainViewModel(
     private val getRepositoryByPage: GetRepositoryByPage
 ): ViewModel() {
 
+    private var hasMore = false
     private var page: Int = 1
     private val repositoriesList = mutableListOf<RepositoryModel>()
 
@@ -27,8 +28,9 @@ class MainViewModel(
     fun getRepositories() {
         _isLoading.startLoading()
         viewModelScope.launch {
-            val list = getRepositoryByPage.getRepositoryByPage(page)
-            repositoriesList.addAll(list)
+            val info = getRepositoryByPage.getRepositoryByPage(page)
+            repositoriesList.addAll(info.items)
+            hasMore = repositoriesList.size < info.total
             _list.postValue(repositoriesList)
             _isLoading.stopLoading()
             page++
@@ -37,6 +39,7 @@ class MainViewModel(
 
     fun getRepositoryList(): List<RepositoryModel> = repositoriesList.toList()
     fun isLoading() = isLoading.value ?: false
+    fun hasMorePages(): Boolean = hasMore
 
 }
 

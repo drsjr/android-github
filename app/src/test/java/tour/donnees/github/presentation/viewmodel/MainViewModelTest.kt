@@ -12,12 +12,13 @@ import org.junit.Assert
 import org.junit.Rule
 import org.junit.Test
 import tour.donnees.github.config.CoroutineDispatcher
+import tour.donnees.github.domain.model.InfoRepositoryListModel
 import tour.donnees.github.domain.model.RepositoryModel
 import tour.donnees.github.domain.usecase.GetRepositoryByPage
 
 @ExperimentalCoroutinesApi
 class MainViewModelTest {
-    
+
     @get:Rule
     val dispatcherRule = CoroutineDispatcher()
 
@@ -34,7 +35,7 @@ class MainViewModelTest {
     }
 
     @Test
-    fun test2() {
+    fun `ViewModel GetRepositories with Success`() {
 
         coEvery { mockGetRepositoryByPage.getRepositoryByPage(any()) } returns getMockRepositories()
 
@@ -46,9 +47,11 @@ class MainViewModelTest {
 
     }
 
-    private fun getMockRepositories(): List<RepositoryModel> {
-        return listOf(
-            RepositoryModel(
+    private fun getMockRepositories(): InfoRepositoryListModel {
+        return InfoRepositoryListModel(
+            total = 1,
+            items = listOf(
+                RepositoryModel(
                 repositoryName = "test repositoryName",
                 repositoryUrl = "test repositoryUrl",
                 repositoryDescription = "test repositoryDescription",
@@ -56,8 +59,9 @@ class MainViewModelTest {
                 forks = 321,
                 profileName = "test profileName",
                 profileImageUrl = "test profileImageUrl",
-                profileUrl = "test profileUrl")
+                profileUrl = "test profileUrl"
+                )
+            )
         )
     }
-
 }

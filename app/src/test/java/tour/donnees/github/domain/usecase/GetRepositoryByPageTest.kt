@@ -17,21 +17,26 @@ class GetRepositoryByPageTest {
     private val useCase = GetRepositoryByPageImpl(searchedRepository)
 
     @Test
-    fun test() {
+    fun `UseCase GetRepositoryByPage with Success`() {
         val value = mockSearchedRepository()
 
         coEvery { searchedRepository.getRepositoriesByPage(any()) } returns value
 
-        val test = runBlocking { useCase.getRepositoryByPage(1) }.toList()
+        val test = runBlocking { useCase.getRepositoryByPage(1) }
 
-        Assert.assertEquals(value.items?.size, test.size)
-        Assert.assertEquals(value.items?.get(0)!!.url, test[0].repositoryUrl)
-        Assert.assertEquals(value.items?.get(0)!!.forks, test[0].forks)
-        Assert.assertEquals(value.items?.get(0)!!.stargazersCount, test[0].stars)
-        Assert.assertEquals(value.items?.get(0)!!.owner!!.url, test[0].profileUrl)
-        Assert.assertEquals(value.items?.get(0)!!.owner!!.avatarUrl, test[0].profileImageUrl)
-        Assert.assertEquals(value.items?.get(0)!!.owner!!.login, test[0].profileName)
-        Assert.assertEquals(value.items?.size, test.size)
+        Assert.assertEquals(value.items?.size, test.items.size)
+        Assert.assertEquals(value.items?.size, test.items.size)
+        Assert.assertEquals(value.totalCount, test.total)
+
+        test.items.toList()[0].let { item ->
+            Assert.assertEquals(value.items?.get(0)!!.url, item.repositoryUrl)
+            Assert.assertEquals(value.items?.get(0)!!.forks, item.forks)
+            Assert.assertEquals(value.items?.get(0)!!.stargazersCount, item.stars)
+            Assert.assertEquals(value.items?.get(0)!!.owner!!.url, item.profileUrl)
+            Assert.assertEquals(value.items?.get(0)!!.owner!!.avatarUrl, item.profileImageUrl)
+            Assert.assertEquals(value.items?.get(0)!!.owner!!.login, item.profileName)
+        }
+
 
     }
 

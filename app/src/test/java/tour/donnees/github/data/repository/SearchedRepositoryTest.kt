@@ -14,12 +14,12 @@ class SearchedRepositoryTest {
     private val repository = SearchedRepositoryImpl(api)
 
     @Test
-    fun test() {
-        coEvery { api.getRepositories(any(), any(), any()) } returns SearchedRepositoriesDTO(false, emptyList(), 0)
+    fun `SearchedRepository GetRepositoryByPage with Success`() {
+        coEvery { api.getRepositories(any(), any(), any()) } returns SearchedRepositoriesDTO(false, emptyList(), 1)
 
         val test = runBlocking { repository.getRepositoriesByPage(1) }
 
-        Assert.assertEquals(0, test.totalCount)
+        Assert.assertEquals(1, test.totalCount)
         Assert.assertEquals(false, test.incompleteResults)
         Assert.assertEquals(0, test.items!!.size)
     }

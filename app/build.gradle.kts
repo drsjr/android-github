@@ -14,7 +14,7 @@ android {
         versionCode = 1
         versionName = "1.0"
 
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner = "tour.donnees.github.MyRunner"
     }
 
     buildTypes {
@@ -43,14 +43,11 @@ android {
     }
 
     packagingOptions {
-        resources.excludes.apply {
-            add("META-INF/DEPENDENCIES")
-            add("META-INF/NOTICE")
-            add("META-INF/LICENSE")
-            add("META-INF/LICENSE.txt")
-            add("META-INF/NOTICE.txt")
-        }
+
+        pickFirst ("META-INF/LICENSE.md")
+        pickFirst ("**/libfbjni.so")
     }
+
 }
 
 dependencies {
@@ -107,18 +104,16 @@ dependencies {
     testImplementation("junit:junit:4.13.2")
     testImplementation("io.mockk:mockk:1.13.4")
 
-    androidTestImplementation("io.mockk:mockk:1.13.4")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4")
 
-    androidTestImplementation("androidx.test.ext:junit:1.1.5")
+    testImplementation("androidx.arch.core:core-testing:$archVersion")
 
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
     androidTestImplementation("androidx.test:runner:1.5.2")
     androidTestImplementation("androidx.test:rules:1.5.0")
 
+    androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.navigation:navigation-testing:$navVersion")
-
-    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4")
-
-    testImplementation("androidx.arch.core:core-testing:$archVersion")
+    //androidTestImplementation("io.mockk:mockk-android:1.13.4")
 
 }

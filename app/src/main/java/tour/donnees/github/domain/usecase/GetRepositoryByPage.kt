@@ -1,7 +1,7 @@
 package tour.donnees.github.domain.usecase
 
-import tour.donnees.github.domain.model.RepositoryModel
+import tour.donnees.github.domain.model.InfoRepositoryListModel
 
 interface GetRepositoryByPage {
-    suspend fun getRepositoryByPage(page: Int): Collection<RepositoryModel>
+    suspend fun getRepositoryByPage(page: Int): InfoRepositoryListModel
 }

@@ -11,3 +11,8 @@ data class RepositoryModel(
     val profileUrl: String
 
 )
+
+data class InfoRepositoryListModel(
+    val total: Int,
+    val items: Collection<RepositoryModel>
+    )

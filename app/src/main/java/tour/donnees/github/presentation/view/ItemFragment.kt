@@ -18,7 +18,7 @@ class ItemFragment : Fragment() {
 
     private val viewModel by activityViewModel<MainViewModel>()
     private lateinit var binding: FragmentItemListBinding
-    private val adapterItem by lazy { ItemViewAdapter(viewModel) }
+    private val adapterItem = ItemViewAdapter()
 
     private var columnCount = 2
 
@@ -28,29 +28,17 @@ class ItemFragment : Fragment() {
     ): View {
         binding = FragmentItemListBinding.inflate(inflater)
 
-
-        // Set the adapter
-        when (resources.configuration.orientation) {
-            Configuration.ORIENTATION_LANDSCAPE -> {
-                with(binding.list) {
-                    layoutManager = GridLayoutManager(context, columnCount)
-                    adapter = adapterItem
-                }
+        with(binding.list) {
+            layoutManager = when (resources.configuration.orientation) {
+                Configuration.ORIENTATION_LANDSCAPE ->
+                    GridLayoutManager(context, columnCount)
+                else ->
+                    LinearLayoutManager(context)
             }
-            else -> {
-                with(binding.list) {
-                    layoutManager = LinearLayoutManager(context)
-                    adapter = adapterItem
-                }
-            }
-
-        }
-        binding.list.apply {
+            adapter = adapterItem
             endlessScrolling(this)
             addDivider(this)
         }
-
-
         return binding.root
     }
 
@@ -59,14 +47,14 @@ class ItemFragment : Fragment() {
         if (savedInstanceState == null) {
             viewModel.getRepositories()
         } else {
-            adapterItem.updateAdapter()
+            adapterItem.updateAdapter(viewModel.getRepositoryList())
         }
         initObserver()
     }
 
     private fun initObserver() {
         viewModel.list.observe(this@ItemFragment.viewLifecycleOwner) {
-            adapterItem.updateAdapter()
+            adapterItem.updateAdapter(viewModel.getRepositoryList())
         }
         viewModel.isLoading.observe(this@ItemFragment.viewLifecycleOwner, ::showLoading)
     }
@@ -84,8 +72,9 @@ class ItemFragment : Fragment() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
                 val linearLayoutManager = recyclerView.layoutManager as LinearLayoutManager?
-                if (!viewModel.isLoading()) {
-                    if (linearLayoutManager != null && linearLayoutManager.findLastCompletelyVisibleItemPosition() == adapterItem.itemCount - 1) {
+                if (!viewModel.isLoading() && viewModel.hasMorePages()) {
+                    if (linearLayoutManager != null
+                        && linearLayoutManager.findLastCompletelyVisibleItemPosition() == adapterItem.itemCount - 1) {
                         viewModel.getRepositories()
                     }
                 }
