@@ -52,68 +52,58 @@ android {
 
 dependencies {
 
-    implementation("androidx.constraintlayout:constraintlayout:2.1.4")
-    implementation("androidx.legacy:legacy-support-v4:1.0.0")
-    implementation("androidx.recyclerview:recyclerview:1.2.1")
-    val lifecycleVersion = "2.6.0"
-    val archVersion = "2.1.0"
-    val koinVersion = "3.3.3"
-    val navVersion = "2.5.3"
+    //AndroidX
+    implementation(libs.androidx.navigationfragment)
+    implementation(libs.androidx.navigationui)
+    testImplementation(libs.androidx.navigationtesting)
 
-    implementation("androidx.core:core-ktx:1.9.0")
-    implementation("androidx.appcompat:appcompat:1.6.1")
-    implementation("com.google.android.material:material:1.8.0")
+    //testImplementation(libs.androidx.lifecyclelivedata)
+    //testImplementation(libs.androidx.lifecyclesavedstate) //Saved state module for ViewModel
+    //testImplementation(libs.androidx.lifecycleviewmodel)
 
-    //ViewModel
-    //implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion")
+    implementation(libs.androidx.legacy)
+    implementation(libs.androidx.recyclerview)
+    implementation(libs.androidx.corektx)
+    implementation(libs.androidx.appcompat)
+    implementation(libs.androidx.constraint)
+    testImplementation(libs.androidx.coretesting)
 
-    //LiveData
-    //implementation("androidx.lifecycle:lifecycle-livedata-ktx:$lifecycleVersion")
+    androidTestImplementation(libs.androidx.espressocore)
+    androidTestImplementation(libs.androidx.testrunner)
+    androidTestImplementation(libs.androidx.testrules)
+    androidTestImplementation(libs.androidx.junit)
+
+    // Koin
+    implementation(libs.koin.core)
+    implementation(libs.koin.android)
+    testImplementation(libs.koin.test)
+    testImplementation(libs.koin.junit)
+
+    // Coroutines
+    implementation(libs.coroutines.core)
+    testImplementation(libs.coroutines.test)
 
 
-    //Saved state module for ViewModel
-    //implementation("androidx.lifecycle:lifecycle-viewmodel-savedstate:$lifecycleVersion")
+    // Material
+    implementation(libs.material)
 
-    //Navigation
-    implementation("androidx.navigation:navigation-fragment-ktx:$navVersion")
-    implementation("androidx.navigation:navigation-ui-ktx:$navVersion")
 
-    //Coroutines
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
+    // Coil
+    implementation(libs.coil)
 
-    //Coil
-    implementation("io.coil-kt:coil:2.2.2")
-
-    //OkHttp
-    implementation(platform("com.squareup.okhttp3:okhttp-bom:4.10.0"))
-    implementation("com.squareup.okhttp3:okhttp")
-    implementation("com.squareup.okhttp3:logging-interceptor")
+    // OkHttp
+    implementation(platform(libs.okhttp.bom))
+    implementation(libs.okhttp)
+    implementation(libs.okhttp.logging)
 
     //Retrofit
-    implementation("com.squareup.retrofit2:retrofit:2.9.0")
-    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation(libs.retrofit)
+    implementation(libs.retrofit.convertergson)
 
-    //Koin
-    implementation("io.insert-koin:koin-android:$koinVersion")
+    testImplementation(libs.junit)
+    testImplementation(libs.mockk)
 
-    //Koin Test
-    testImplementation("io.insert-koin:koin-test:$koinVersion")
 
-    testImplementation("io.insert-koin:koin-test-junit4:$koinVersion")
-
-    testImplementation("junit:junit:4.13.2")
-    testImplementation("io.mockk:mockk:1.13.4")
-
-    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4")
-
-    testImplementation("androidx.arch.core:core-testing:$archVersion")
-
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
-    androidTestImplementation("androidx.test:runner:1.5.2")
-    androidTestImplementation("androidx.test:rules:1.5.0")
-
-    androidTestImplementation("androidx.test.ext:junit:1.1.5")
-    androidTestImplementation("androidx.navigation:navigation-testing:$navVersion")
     //androidTestImplementation("io.mockk:mockk-android:1.13.4")
 
 }
