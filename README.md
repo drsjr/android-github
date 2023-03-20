@@ -2,9 +2,6 @@
 
 Este projeto é um exemplo de um implementação MVVM Clean Arch.
 
-## **Base**
-
-
 ## **Dependencies**
 
  - AndroidX
@@ -17,16 +14,5 @@ Este projeto é um exemplo de um implementação MVVM Clean Arch.
  - OkHttp
 
 ### **Dependencies Manager**
+
  - TOML
-
-### **Unit Test**
- - os testes
-  
-### **Instrumented Tests**
- - os testes
-
-#
-## Pensando como Produto
-
-
-
