@@ -12,14 +12,4 @@
         tools:layout="@layout/fragment_item_list">
     </fragment>
 
-    <!--<fragment
-        android:id="@+id/loadingFragment"
-        android:name="tour.donnees.github.presentation.view.LoadingFragment"
-        android:label="@string/app_name"
-        tools:layout="@layout/fragment_loading">
-        <action
-            android:id="@+id/navigateToListFragmentAction"
-            app:destination="@id/listFragment"/>
-    </fragment>-->
-
 </navigation>
